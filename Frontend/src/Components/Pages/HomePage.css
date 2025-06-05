@@ -1,0 +1,92 @@
+.homepage {
+   padding: 20px 0;
+   margin-top: 20px;
+}
+
+.banner {
+  position: relative;
+  width: auto;
+  margin-bottom: 30px;
+  overflow: hidden;
+  border-radius: 12px;
+  display: flex;           /* 👈 helps center or align if needed */
+  justify-content: center; /* 👈 keeps image aligned inside */
+}
+
+.banner-img {
+  width: 100%;
+  height: 450px;
+  max-width: 100%;          /* 👈 ensures it stays inside container */
+  object-fit: cover;
+  border-radius: 12px;
+  display: block;
+}
+
+.banner-text {
+  position: absolute;
+  top: 50%;
+  left: 70px; /* Match container padding */
+  transform: translateY(-50%); /* Only move vertically */
+  color: #364153;
+  text-align: left; /* Align text to left */
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  max-width: 500px; /* Optional: limit text width */
+}
+
+
+.banner-text h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+}
+
+.banner-text p {
+  font-size: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.shop-button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  background-color: #4CB785;
+  color: white;
+  font-size: 1rem;
+  gap: 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.shop-button:hover {
+  background-color: #339467;
+}
+
+.explore-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  color: #000000;
+  font-weight: 500;
+  font-size: 16px;
+  transition: color 0.3s ease;
+}
+
+.arrow-icon {
+  width: 16px;
+  height: 16px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.explore-link:hover .arrow-icon {
+  transform: translateX(4px); 
+}
+
+.banner-buttons {
+  display: flex;
+  align-items: center;
+  gap: 20px; 
+  margin-top: 20px;
+}

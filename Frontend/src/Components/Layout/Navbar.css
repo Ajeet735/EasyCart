@@ -1,0 +1,221 @@
+/* Navbar Container */
+nav {
+  background: white;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+  border-bottom: 1px solid #e0e0e0; /* Replaced shadow with border */
+}
+
+/* Inner Container */
+nav .container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  padding: 0 80px; /* ✅ KEEP padding here */
+}
+
+
+/* Logo */
+/* Logo Wrapper */
+nav .logo {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
+/* Logo Image */
+.nav-logo-img {
+  height: 10px;         /* Matches height of search bar / menu items */
+  width: auto;
+  object-fit: contain;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  display: block;  
+  margin-bottom: 2px;     /* Prevent image baseline shift */
+}
+
+
+/* Menu Items */
+nav .menu {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+  margin-right: 0;  /* ensure no extra right margin */
+  padding-right: 0;
+}
+
+nav .menu li {
+  list-style: none;
+}
+
+nav .menu li a {
+  color: #000000; /* Black text for Home and All Products */
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  position: relative;
+}
+
+nav .menu li a:hover {
+  color: #4CB785;
+  transition: color 0.3s ease;
+}
+
+nav .menu li a::before {
+  content: "";
+  position: absolute;
+  background: #4CB785;
+  height: 2px;
+  width: 0;
+  left: 0;
+  bottom: -4px;
+  transition: width 0.3s ease;
+}
+
+nav .menu li a:hover::before {
+  width: 100%;
+}
+
+/* Logout Button */
+nav .menu button {
+  padding: 8px 16px;
+  border-radius: 20px;
+  border: 1px solid #4CB785;
+  background: transparent;
+  color: #4CB785;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+nav .menu button:hover {
+  background: #4CB785;
+  color: #FFFFFF;
+}
+
+/* Search Bar */
+.search-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 20px;
+}
+
+.search-input {
+  padding: 8px 16px;
+  border-radius: 25px;
+  border: 1px solid #ccc; /* Light border */
+  background-color: #ffffff; /* White background */
+  font-size: 16px;
+  width: 250px;
+  outline: none;
+  color: #333;
+}
+
+.search-button {
+  padding: 8px 16px;
+  background-color: #4CB785;
+  color: white;
+  border: none;
+  border-radius: 25px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.search-button:hover {
+  background-color: #339467;
+}
+
+.nav-cart-img {
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+  cursor: pointer;
+}
+.nav-logo-img {
+  width: 80px !important;
+  height: auto !important;
+  object-fit: contain;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.nav-logo-img:hover {
+  transform: scale(1.05);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  height: 70px;
+}
+
+
+
+/* Hamburger Icon */
+nav .hamburger {
+  display: none;
+  font-size: 28px;
+  color: #4CB785;
+  cursor: pointer;
+}
+
+/* Mobile Menu */
+@media (max-width: 1100px) {
+  nav .hamburger {
+    display: block;
+  }
+
+  nav .menu {
+    position: fixed;
+    top: 80px;
+    left: -100%;
+    width: 300px;
+    height: calc(100% - 80px);
+    background: #f1f3f6;
+    flex-direction: column;
+    padding: 30px 20px;
+    align-items: flex-start;
+    gap: 20px;
+    transition: left 0.3s ease;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.3);
+  }
+
+  nav .show-menu {
+    left: 0;
+  }
+
+  nav .menu li a {
+    color: #4CB785;
+    font-size: 18px;
+    font-weight: 600;
+  }
+
+  nav .menu button {
+    color: #4CB785;
+    border: 1px solid #4CB785;
+    font-weight: 600;
+  }
+
+  nav .menu button:hover {
+    background-color: #4CB785;
+    color: #f1f3f6;
+  }
+
+  .search-form {
+    flex-direction: column;
+    width: 100%;
+    align-items: stretch;
+    gap: 8px;
+  }
+
+  .search-input {
+    width: 100%;
+  }
+}
