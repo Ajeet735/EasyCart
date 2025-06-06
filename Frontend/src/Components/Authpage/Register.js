@@ -4,7 +4,7 @@ import { RiLock2Fill } from "react-icons/ri";
 import { FaPencilAlt } from "react-icons/fa";
 import { FaPhoneFlip } from "react-icons/fa6";
 import { FaRegUser } from "react-icons/fa";
-import {Navigate } from "react-router-dom";
+import {useNavigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import "./Register.css";
@@ -20,8 +20,9 @@ const Register = () => {
     phone: "",
   });
 
-  const [redirect, setRedirect ]  = useState(false)
+  
   const [role, setRole] = useState("");
+  const navigate = useNavigate()
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -66,15 +67,13 @@ const Register = () => {
       });
 
       setRole('');
-
-      setRedirect(true);
+      navigate("/login");
+    
     } catch (error) {
       toast.error(error?.response?.data?.error || "Registration failed");
     }
   };
-  if (redirect) {
-    return <Navigate to="/login"/>;
-  }
+  
 
   return (
     <section className="authPage"
