@@ -4,11 +4,27 @@ import { ping } from "../server";
 import toast from "react-hot-toast";
 import { Context } from "../../main";
 import banner from "../../assets/images/main_banner_bg.png";
+import { importAll } from "../../utils/importAllImages";
 import "./HomePage.css";
 import arrow from "../../assets/images/black_arrow_icon.svg";
 
+const categoriesImage = importAll(
+  require.context("../../assets/categories", false, /\.(png|jpe?g|svg)$/)
+);
+
+const categories = [
+  { name: "Fruits", image: "fresh_fruits_image.png" },
+  { name: "vegetables", image: "organic_vegitable_image.png" },
+  { name: "Dairy_Products", image: "dairy_product_image.png" },
+  { name: "Cold Drinks", image: "bottles_image.png" },
+  { name: "Instant Food", image: "maggi_image.png" },
+  { name: "Bakery & breads", image: "bakery_image.png" },
+  { name: "Grains & Cereals", image: "grain_image.png" },
+];
+
 function HomePage() {
-  const { user } = useContext(Context);
+  const { user, isAuthorized } = useContext(Context);
+
   useEffect(() => {
     ping()
       .then((res) => {
@@ -22,42 +38,70 @@ function HomePage() {
       toast.success(`Welcome ${user.first_name}`);
     }
   }, [user]);
+
   return (
     <div className="homepage">
       <div className="container">
-        <div className="banner">
-          <img src={banner} alt="Welcome banner" className="banner-img"></img>
-          <div className="banner-text">
-            <h1>
-              Freshness You Can
-              <br />
-              Trust, Saving You
-              <br />
-              Will Love!
-            </h1>
+        <h1 className="homepage-title">Welcome to the HomePage</h1>
+        {isAuthorized && user?.first_name && (
+          <h2 className="homepage-subtitle">Hello, {user.first_name}!</h2>
+        )}
 
-            <div className="banner-buttons">
-              <button className="shop-button">Shop Now</button>
+        {isAuthorized && (
+          <>
+            <div className="banner">
+              <img src={banner} alt="Welcome banner" className="banner-img" />
+              <div className="banner-text">
+                <h1>
+                  Freshness You Can
+                  <br />
+                  Trust, Saving You
+                  <br />
+                  Will Love!
+                </h1>
 
-             <Link
-  to="#footer-section"
-  className="explore-link"
-  onClick={(e) => {
-    e.preventDefault();
-    document
-      .getElementById("footer-section")
-      ?.scrollIntoView({ behavior: "smooth" });
-  }}
->
-  Explore deals
-  <img src={arrow} alt="Arrow" className="arrow-icon" />
-</Link>
+                <div className="banner-buttons">
+                  <button className="shop-button">Shop Now</button>
 
+                  <Link
+                    to="#footer-section"
+                    className="explore-link"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document
+                        .getElementById("footer-section")
+                        ?.scrollIntoView({ behavior: "smooth" });
+                    }}
+                  >
+                    Explore deals
+                    <img src={arrow} alt="Arrow" className="arrow-icon" />
+                  </Link>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-        <h1>Welcome to the HomePage</h1>
-        {user?.first_name && <h2>Hello, {user.first_name}!</h2>}
+
+            <div className="categories-section">
+              <h2> Categories</h2>
+              <div className="categories-grid">
+                {categories.map((cat) => (
+                  <Link
+                    to={`/category/${cat.name.toLowerCase()}`}
+                    key={cat.name}
+                    className="category-card"
+                  >
+                    <img
+                      src={categoriesImage[cat.image]}
+                      alt={cat.name}
+                      className="category-image"
+                    />
+                    <h3>{cat.name}</h3>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </>
+        )}
+
         {/* Product section */}
         <section className="products"></section>
       </div>

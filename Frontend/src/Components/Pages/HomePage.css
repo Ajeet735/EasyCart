@@ -3,6 +3,22 @@
    margin-top: 20px;
 }
 
+.homepage-title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 2rem 0 1rem;
+  text-align: left;
+  color: #364153;
+}
+
+.homepage-subtitle {
+  font-size: 1.5rem;
+  margin-bottom: 2rem;
+  color: #364153;
+  text-align: left;
+}
+
+
 .banner {
   position: relative;
   width: auto;
@@ -67,7 +83,7 @@
   align-items: center;
   gap: 6px;
   text-decoration: none;
-  color: #000000;
+  color: #364153;
   font-weight: 500;
   font-size: 16px;
   transition: color 0.3s ease;
@@ -89,4 +105,62 @@
   align-items: center;
   gap: 20px; 
   margin-top: 20px;
+}
+
+.categories-section {
+  padding: 1rem 1rem;
+  text-align: center;
+  margin-left: -15px; 
+}
+
+.categories-section h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #364153;
+  margin-bottom: 1.5rem;
+  text-align: left;     /* 👈 Align text to left */
+  margin-left: 0;       /* 👈 Avoid offset */
+  padding-left: 0;      /* 👈 Align with .container */
+}
+
+
+.categories-grid {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 2rem;
+  justify-content: flex-start; /* ✅ Align to the left within container */
+  padding-left: 0;              /* ✅ Let container manage padding */
+}
+
+.category-card {
+  text-decoration: none;
+  color: inherit;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  width: 600px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+ 
+   display: flex;                /* Center content */
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+ 
+}
+.category-image {
+  width: 70%;
+  height: 100px;
+  object-fit:contain;
+  transition: transform 0.4s ease, filter 0.4s ease;
+}
+
+.category-image:hover {
+  transform: scale(1.1);
+  filter: brightness(1.1) contrast(1.05);
+}
+
+
+.category-card h3 {
+  padding: 0.3rem;
+  font-size: 1rem;
 }
