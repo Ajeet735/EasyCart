@@ -1,12 +1,15 @@
 import { useContext, useState } from "react";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLock2Fill } from "react-icons/ri";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
 import { Context } from "../../main";
 import "../../App.css";
 import "./Login.css";
+import logo from "../../assets/logo/easycart.png";
+import background from "../../assets/logo/wave.png";
+import toplayer from "../../assets/logo/bg.svg";
 
 const Login = () => {
   const [formData, setFormdata] = useState({
@@ -47,7 +50,7 @@ const Login = () => {
     setIsAuthorized(true);
     setUser(userData);
     
-    navigate("/"); // ✅ navigate to home
+    navigate("/home"); // ✅ navigate to home
   } catch (error) {
     console.error("Login failed:", error);
     toast.error(error?.response?.data?.error || "Login failed");
@@ -55,10 +58,19 @@ const Login = () => {
 };
 
   return (
-    <section className="authPage">
+    <section
+      className="authPage"
+  style={{
+    backgroundImage: `url(${background})`,
+    backgroundSize: "contain",      // makes the whole image visible
+    backgroundPosition: "0% top",
+    backgroundRepeat: "no-repeat"
+    
+  }}>
+     <img src={toplayer} alt="Layer" className="topLayerImage1" />
       <div className="container">
         <div className="header">
-          <img src="/careerconnect-Black.png" alt="logo" />
+          <img src= {logo} alt="logo" />
           <h3>Login to your account</h3>
         </div>
 
@@ -95,12 +107,10 @@ const Login = () => {
           </div>
 
           <button type="submit">Login</button>
+          <Link to={'/register'}>Register Now</Link>
         </form>
       </div>
 
-      <div className="banner">
-        <img src="/login.png" alt="login" />
-      </div>
     </section>
   );
 };

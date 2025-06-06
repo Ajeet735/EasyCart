@@ -1,146 +1,167 @@
-/* ========== Base Layout ========== */
 .authPage {
+  position: relative; /* Needed for absolute children like .topLayerImage */
   display: flex;
-  min-width: 1500px;
-  max-width: 1500px;
-  margin: 0 auto;
+  width: 100%;
   min-height: 100vh;
+  background-color: #f5f5f5;
+  align-items: flex-start;
+  justify-content: flex-start;
+  padding-top: 5%;
+  padding-bottom: 10%;
+  padding-left: 0;
+  padding-right: 0;
+  background-position: right top;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
-/* ========== Left Panel (Form) ========== */
-.authPage .container {
-  flex: 1;
+.authPage .topLayerImage {
+  position: absolute; /* ← Required for top/left to take effect */
+  top: -16%;
+  left: 40%; /* was -50%, so this moves it 30% to the right */
+  width: 50%;
+  height: 100%;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.9;
+}
+
+
+.authPage .auth-container {
+  width: 100%;
+  max-width: 400px;           /* controls max width */
+  background: #fff;
+  padding: 20px 25px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   display: flex;
   flex-direction: column;
   justify-content: center;
-  background: #fff;
-  padding: 20px;
+  margin-top: -15px;
+  margin-left: -60%;
+  border: 1px solid blue; /* To see */
 }
 
-/* Header (Logo + Title) */
-.authPage .container .header {
-  text-align: center;
-  margin-bottom: 30px;
+
+
+/* ========== Header (Logo + Title) ========== */
+.authPage .auth-container .header {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px; /* ⬅️ Reduced from 70px */
 }
 
-.authPage .container .header img {
-  width: 150px;
-  height: 90px;
-  margin: 0 auto;
+
+.authPage .auth-container .header img {
+  width: 120px;
+  height: auto;
 }
 
-.authPage .container .header h3 {
-  font-size: 1.6rem;
+.authPage .auth-container .header h3 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #333;
 }
 
-/* ========== Form Styling ========== */
-.authPage .container form {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
-
-/* Input Field Wrapper */
-.authPage .container form .inputTag {
+/* ========== Form Styles ========== */
+.authPage .auth-container form {
   display: flex;
   flex-direction: column;
   gap: 10px;
 }
 
-/* Input Field Row (with icon) */
-.authPage .container form .inputTag div {
+.authPage .inputTag {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.authPage .inputTag label {
+  font-weight: 500;
+  color: #333;
+}
+
+.authPage .inputTag div {
   display: flex;
   align-items: center;
-  border-radius: 7px;
+  border-radius: 8px;
   overflow: hidden;
+  background-color: #f0f0f0;
 }
 
-/* Input and Select Styles */
-.authPage .container form .inputTag div input,
-.authPage .container form .inputTag div select {
-  background: #EEF5F3;
-  padding: 8px;
+.authPage .inputTag input,
+.authPage .inputTag select {
+  flex: 1;
   border: none;
-  width: 100%;
+  padding: 12px;
   font-size: 1rem;
+  background: transparent;
 }
 
-/* Focus State */
-.authPage .container form .inputTag div input:focus,
-.authPage .container form .inputTag div select:focus {
+.authPage .inputTag input:focus,
+.authPage .inputTag select:focus {
   outline: none;
 }
 
-/* Icon Styling (SVGs) */
-.authPage .container form .inputTag div svg {
-  width: 10%;
-  font-size: 1.2rem; /* Reduced from 1.5rem */
-  background: #3CC6A5;
+.authPage .inputTag svg {
+  width: 40px;
   height: 100%;
+  background-color: #3CC6A5;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 8px;
-  color: #fff;
 }
 
-/* ========== Button and Link ========== */
-.authPage .container form button {
-  padding: 12px;
-  text-align: center;
+/* ========== Submit Button ========== */
+.authPage .auth-container form button {
+  background-color: #3CC6A5;
+  color: white;
   border: none;
-  margin-top: 25px;
-  font-weight: 700;
-  color: #fff;
-  background: #3CC6A5;
-  font-size: 1.2rem;
-  border-radius: 7px;
+  padding: 14px;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: bold;
   cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: 10px;
 }
 
-.authPage .container form a {
-  padding: 12px;
-  text-align: center;
-  border: 1px solid #3CC6A5;
-  margin-top: 25px;
-  font-weight: 700;
-  color: #3CC6A5;
-  font-size: 1.2rem;
-  text-decoration: none;
-  border-radius: 7px;
+.authPage .auth-container form button:hover {
+  background-color: #2fa28d;
+  transform: scale(1.02);
 }
 
-/* ========== Right Panel (Banner) ========== */
+/* ========== Banner (Right Image) ========== */
 .authPage .banner {
-  flex: 2;
+  flex: 1.5;
   display: flex;
   justify-content: center;
   align-items: center;
-  overflow-y: hidden;
+  padding: 40px;
 }
 
 .authPage .banner img {
-  width: 550px;
-  height: 550px;
+  width: 90%;
+  max-width: 500px;
+  height: auto;
+  object-fit: contain;
 }
 
-/* ========== Responsive Design ========== */
-@media (max-width: 1520px) {
-  .authPage {
-    min-width: 100%;
-  }
-}
-
-@media (max-width: 830px) {
+/* ========== Responsive ========== */
+@media (max-width: 1000px) {
   .authPage {
     flex-direction: column;
-    min-height: 100vh;
+    align-items: center;
+    padding: 20px;
   }
 
-  .authPage .container {
+  .authPage .auth-container {
     width: 100%;
-    justify-content: flex-start;
-    padding: 40px 20px;
+    margin: 20px 0;
   }
 
   .authPage .banner {

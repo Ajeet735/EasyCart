@@ -7,9 +7,10 @@ import { FaRegUser } from "react-icons/fa";
 import {Navigate } from "react-router-dom";
 import axios from "axios";
 import toast from "react-hot-toast";
-import "../../App.css";
 import "./Register.css";
-
+import logo from "../../assets/logo/easycart.png";
+import background from "../../assets/logo/Rwave.png";
+import toplayer from "../../assets/logo/logo1.svg";
 const Register = () => {
   const [formData, setFormData] = useState({
     first_name: "",
@@ -76,10 +77,19 @@ const Register = () => {
   }
 
   return (
-    <section className="authPage">
-      <div className="container">
+    <section className="authPage"
+    style={{
+        backgroundImage: `url(${background})`,
+        backgroundSize: "contain",      // makes the whole image visible
+      backgroundPosition: "right top",
+        backgroundRepeat: "no-repeat"
+        
+      }}
+    >
+       <img src={toplayer} alt="Layer" className="topLayerImage" />
+      <div className="auth-container">
         <div className="header">
-          <img src="/careerconnect-Black.png" alt="logo" />
+          <img src= {logo}  alt="logo" />
           <h3>Create a new account</h3>
         </div>
 
@@ -170,12 +180,8 @@ const Register = () => {
               <RiLock2Fill />
             </div>
           </div>
-
           <button type="submit">Register</button>
         </form>
-      </div>
-      <div className="banner">
-        <img src="/register.png" alt="register" />
       </div>
     </section>
   );
