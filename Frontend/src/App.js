@@ -7,28 +7,26 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Register from "./Components/Authpage/Register";
 import Login from "./Components/Authpage/Login";
 import AddProducts from "./Components/ProductsView.js/AddProducts";
+import GetAllProducts from "./Components/ProductsView.js/GetAllProducts";
+import CartPage from "./Components/Pages/CartPage";
+
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<Login />} />
+        <Route path="/" element={<Login />} />
         <Route path="/register" element={<Register />} />
 
         {/* For other routes, use layout */}
-        <Route
-          path="/*"
-          element={
-            <Layout>
-              <Routes>
-                <Route path="/" element={<Login/>} />
+        <Route element={ <Layout />}>
+                <Route path="/login" element={<Login/>} />
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/admin" element={<AdminRoute><AdminPanel /></AdminRoute>} />
                 <Route path="/admin/addproduct" element={<AddProducts />} />
-              </Routes>
-            </Layout>
-          }
-        />
+                <Route path="/users/getallProducts" element={<GetAllProducts />} />
+                <Route path="/cart" element = {<CartPage/>}/>   
+        </Route>
       </Routes>
     </BrowserRouter>
   );

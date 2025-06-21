@@ -14,7 +14,7 @@ const categoriesImage = importAll(
 
 const categories = [
   { name: "Fruits", image: "fresh_fruits_image.png" },
-  { name: "vegetables", image: "organic_vegitable_image.png" },
+  { name: "Vegetables", image: "organic_vegitable_image.png" },
   { name: "Dairy_Products", image: "dairy_product_image.png" },
   { name: "Cold Drinks", image: "bottles_image.png" },
   { name: "Instant Food", image: "maggi_image.png" },
@@ -39,15 +39,14 @@ function HomePage() {
     }
   }, [user]);
 
+  useEffect(() => {
+    console.log("Auth context:", isAuthorized, user);
+  }, [isAuthorized, user]);
+
   return (
     <div className="homepage">
       <div className="container">
         <h1 className="homepage-title">Welcome to the HomePage</h1>
-        {isAuthorized && user?.first_name && (
-          <h2 className="homepage-subtitle">Hello, {user.first_name}!</h2>
-        )}
-
-        {isAuthorized && (
           <>
             <div className="banner">
               <img src={banner} alt="Welcome banner" className="banner-img" />
@@ -81,7 +80,7 @@ function HomePage() {
             </div>
 
             <div className="categories-section">
-              <h2> Categories</h2>
+              <h2>Categories</h2>
               <div className="categories-grid">
                 {categories.map((cat) => (
                   <Link
@@ -100,7 +99,6 @@ function HomePage() {
               </div>
             </div>
           </>
-        )}
 
         {/* Product section */}
         <section className="products"></section>

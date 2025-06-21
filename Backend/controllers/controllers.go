@@ -202,54 +202,119 @@ func Logout() gin.HandlerFunc {
 		c.JSON(http.StatusOK, gin.H{"message": "Logged out successfully"})
 	}
 }
-
 func ProductViewerAdmin() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
-		var products models.Product
 		defer cancel()
+
+		var products []models.Product // 🟢 Accept an array of products
+
 		if err := c.BindJSON(&products); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 			return
 		}
-		products.Product_ID = primitive.NewObjectID()
-		_, anyerr := ProductCollection.InsertOne(ctx, products)
-		if anyerr != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "Not Created"})
+
+		// Convert products to a slice of interface{} for InsertMany
+		var productInterfaces []interface{}
+		for i := range products {
+			products[i].Product_ID = primitive.NewObjectID()
+			productInterfaces = append(productInterfaces, products[i])
+		}
+
+		_, err := ProductCollection.InsertMany(ctx, productInterfaces)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Bulk insert failed"})
 			return
 		}
-		defer cancel()
-		c.JSON(http.StatusOK, "Successfully added our Product Admin!!")
+
+		c.JSON(http.StatusOK, gin.H{"message": "Successfully added products!"})
 	}
 }
 
-func SearchProduct() gin.HandlerFunc {
+func GetProductsByCategory() gin.HandlerFunc {
 	return func(c *gin.Context) {
-		var productlist []models.Product
-		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
-		defer cancel()
-		cursor, err := ProductCollection.Find(ctx, bson.D{{}})
-		if err != nil {
-			c.IndentedJSON(http.StatusInternalServerError, "Someting Went Wrong Please Try After Some Time")
+		category := c.Query("category")
+		if category == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Category query parameter is required"})
 			return
 		}
-		err = cursor.All(ctx, &productlist)
+
+		var products []models.Product
+		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
+
+		// Find products where "category" matches (case-insensitive regex)
+		filter := bson.M{"category": bson.M{"$regex": category, "$options": "i"}}
+		cursor, err := ProductCollection.Find(ctx, filter)
 		if err != nil {
-			log.Println(err)
-			c.AbortWithStatus(http.StatusInternalServerError)
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error fetching products"})
 			return
 		}
 		defer cursor.Close(ctx)
-		if err := cursor.Err(); err != nil {
-			// Don't forget to log errors. I log them really simple here just
-			// to get the point across.
-			log.Println(err)
-			c.IndentedJSON(400, "invalid")
+
+		if err := cursor.All(ctx, &products); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error decoding products"})
 			return
 		}
-		defer cancel()
-		c.IndentedJSON(200, productlist)
 
+		c.JSON(http.StatusOK, products)
+	}
+}
+
+func GetAllProducts() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+
+		cursor, err := ProductCollection.Find(ctx, bson.M{})
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error fetching products"})
+			return
+		}
+		defer cursor.Close(ctx)
+
+		var products []models.Product
+		if err := cursor.All(ctx, &products); err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error decoding products"})
+			return
+		}
+
+		c.JSON(http.StatusOK, products)
+	}
+}
+
+func DeleteProduct() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		productID := c.Param("id") // get product ID from URL path
+
+		if productID == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Product ID is required"})
+			return
+		}
+
+		objID, err := primitive.ObjectIDFromHex(productID)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid product ID"})
+			return
+		}
+
+		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+		defer cancel()
+
+		filter := bson.M{"_id": objID}
+
+		result, err := ProductCollection.DeleteOne(ctx, filter)
+		if err != nil {
+			c.JSON(http.StatusInternalServerError, gin.H{"error": "Failed to delete product"})
+			return
+		}
+
+		if result.DeletedCount == 0 {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
+			return
+		}
+
+		c.JSON(http.StatusOK, gin.H{"message": "Product deleted successfully"})
 	}
 }
 

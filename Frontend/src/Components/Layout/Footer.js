@@ -11,7 +11,7 @@ function Footer() {
   const {isAuthorized}  = useContext(Context)
   console.log("Navbar isAuthorized:", isAuthorized);
   return (
-   <footer id="footer-section" className= {isAuthorized ? "footerShow " : "footerHide "}>
+   <footer id="footer-section" className= {"footerShow"}>
   <div>© All Rights Reserved by Ajeet.</div>
   <div>
     <Link to="https://github.com/Ajeetchirag" target="_blank" rel="noopener noreferrer"><FaGithub /></Link>

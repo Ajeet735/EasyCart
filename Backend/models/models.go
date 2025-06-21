@@ -25,19 +25,20 @@ type User struct {
 
 type Product struct {
 	Product_ID   primitive.ObjectID `bson:"_id,omitempty" json:"id"`
-	Product_Name *string            `bson:"product_name" json:"product_name"`
-	Price        *uint64            `bson:"price" json:"price"`
-	Rating       *uint8             `bson:"rating" json:"rating"`
-	Image        *string            `bson:"image" json:"image"`
-	Category     *string            `bson:"category" json:"category"` // ✅ Added category
+	Product_Name string             `bson:"product_name" json:"product_name"`
+	Price        uint64             `bson:"price" json:"price"`
+	Rating       uint8              `bson:"rating" json:"rating"`
+	Image        string             `bson:"image" json:"image"`
+	Category     string             `bson:"category" json:"category"`
 }
 
 type ProductUser struct {
 	Product_ID   primitive.ObjectID `bson:"_id"`
 	Product_Name *string            `json:"product_name" bson:"product_name"`
 	Price        int                `json:"price"  bson:"price"`
-	Rating       *uint              `json:"rating" bson:"rating"`
+	Rating       *uint8             `json:"rating" bson:"rating"`
 	Image        *string            `json:"image"  bson:"image"`
+	Quantity     int                `json:"quantity" bson:"quantity"`
 }
 
 type Address struct {

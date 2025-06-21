@@ -5,8 +5,8 @@ import axios from "axios";
 import toast from "react-hot-toast";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { AiOutlineClose } from "react-icons/ai";
-import cartImage from '../../assets/icons/cart.png';
-import logo from '../../assets/logo/easycart.png';
+import cartImage from "../../assets/icons/cart.png";
+import logo from "../../assets/logo/easycart.png";
 
 import "../../App.css";
 import "./Navbar.css";
@@ -17,6 +17,7 @@ const Navbar = () => {
   const [query, setQuery] = useState("");
   const [results, setResults] = useState([]);
   const navigateTo = useNavigate();
+  const { cartCount } = useContext(Context);
 
   const handleLogout = async () => {
     try {
@@ -80,7 +81,7 @@ const Navbar = () => {
             </Link>
           </li>
           <li>
-            <Link to="/users/productview" onClick={() => setShow(false)}>
+            <Link to="/users/getallProducts" onClick={() => setShow(true)}>
               All Products
             </Link>
           </li>
@@ -103,6 +104,7 @@ const Navbar = () => {
           <li>
             <Link to="/cart" className="cart-link">
               <img src={cartImage} alt="Cart" className="nav-cart-img" />
+              {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
             </Link>
           </li>
 

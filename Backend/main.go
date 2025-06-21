@@ -10,10 +10,10 @@ import (
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
+	"path/filepath"
 )
 
 func main() {
-
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8000"
@@ -39,23 +39,28 @@ func main() {
 		AllowCredentials: true,
 	}))
 
-	// Public routes (no auth)
+	// Public routes
 	router.GET("/api/ping", func(c *gin.Context) {
 		c.String(200, "pong")
 	})
-	routes.UserRoutes(router)
-	router.Use(middleware.Authentication())
+	routes.UserRoutes(router) // login, register, etc.
 
-	// Protected routes
-	router.GET("/addtocart", app.AddToCart())
-	router.GET("/removeitem", app.RemoveItem())
-	router.GET("/listcart", controllers.GetItemFromCart())
-	router.POST("/addaddress", controllers.AddAddress())
-	router.PUT("/edithomeaddress", controllers.EditHomeAddress())
-	router.PUT("/editworkaddress", controllers.EditWorkAddress())
-	router.GET("/deleteaddresses", controllers.DeleteAddress())
-	router.GET("/cartcheckout", app.BuyFromCart())
-	router.GET("/instantbuy", app.InstantBuy())
+	// ✅ Protected routes (use middleware per route)
+	router.POST("/addtocart", middleware.Authentication(), app.AddToCart())
+	router.DELETE("/removeitem", middleware.Authentication(), app.RemoveItem())
+	router.GET("/listcart", middleware.Authentication(), controllers.GetItemFromCart())
+	router.POST("/addaddress", middleware.Authentication(), controllers.AddAddress())
+	router.PUT("/edithomeaddress", middleware.Authentication(), controllers.EditHomeAddress())
+	router.PUT("/editworkaddress", middleware.Authentication(), controllers.EditWorkAddress())
+	router.DELETE("/deleteaddresses", middleware.Authentication(), controllers.DeleteAddress())
+	router.POST("/cartcheckout", middleware.Authentication(), app.BuyFromCart())
+	router.POST("/instantbuy", middleware.Authentication(), app.InstantBuy())
+
+	router.GET("/users/cart-count", middleware.Authentication(), controllers.GetCartCount())
+	router.PUT("/update-cart-quantity", middleware.Authentication(), controllers.UpdateCartQuantity())
+
+	// Static file route
+	router.Static("/public", filepath.Join(".", "public"))
 
 	log.Println("Server running on port", port)
 	log.Fatal(router.Run(":" + port))
