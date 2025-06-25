@@ -6,9 +6,12 @@ import Layout from "./Components/Layout/Layout";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Register from "./Components/Authpage/Register";
 import Login from "./Components/Authpage/Login";
-import AddProducts from "./Components/ProductsView.js/AddProducts";
-import GetAllProducts from "./Components/ProductsView.js/GetAllProducts";
+import AddProducts from "./Components/ProductsView/AddProducts";
+import GetAllProducts from "./Components/ProductsView/GetAllProducts";
 import CartPage from "./Components/Pages/CartPage";
+import ProductDetails from "./Components/ProductsView/ProductsDetails";
+import CategoryProducts from "./Components/ProductsView/CategoryProducts";
+
 
 
 function App() {
@@ -26,6 +29,10 @@ function App() {
                 <Route path="/admin/addproduct" element={<AddProducts />} />
                 <Route path="/users/getallProducts" element={<GetAllProducts />} />
                 <Route path="/cart" element = {<CartPage/>}/>   
+                <Route path="/product/:id" element={<ProductDetails />} />
+                <Route path="/category/:category" element = {<CategoryProducts/>} />
+
+
         </Route>
       </Routes>
     </BrowserRouter>

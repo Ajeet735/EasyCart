@@ -16,6 +16,7 @@ func UserRoutes(incomingRoutes *gin.Engine) {
 	incomingRoutes.POST("/admin/addproduct", controllers.ProductViewerAdmin())
 	incomingRoutes.GET("/users/search", controllers.SearchProductByQuery())
 	incomingRoutes.DELETE("/users/product/:id", controllers.DeleteProduct())
+	incomingRoutes.GET("/users/getproduct/:id", controllers.GetProductByID())
 
 	incomingRoutes.GET("/users/check-auth", middleware.Authentication(), controllers.CheckAuth())
 }

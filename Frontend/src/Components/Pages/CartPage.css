@@ -1,3 +1,22 @@
-.cartheading {
-    color:"#364153";
+.cart-container {
+  max-width: 1210px;
+  margin: 50px auto 0 auto; /* Top space to account for navbar */
+  padding: 0 2rem;            /* Equal left/right margin */
+}
+
+.cart-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.cart-left {
+  flex: 3;
+}
+
+.cart-right {
+  flex: 1;
+  margin-top: -40px; /* or any negative value to shift it upward */
+  margin-right: 88px;
 }

@@ -76,7 +76,7 @@ const Navbar = () => {
         {/* Menu Links */}
         <ul className={!show ? "menu" : "show-menu menu"}>
           <li>
-            <Link to="/" onClick={() => setShow(false)}>
+            <Link to="/home" onClick={() => setShow(false)}>
               Home
             </Link>
           </li>

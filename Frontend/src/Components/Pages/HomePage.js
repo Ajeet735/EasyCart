@@ -13,13 +13,13 @@ const categoriesImage = importAll(
 );
 
 const categories = [
-  { name: "Fruits", image: "fresh_fruits_image.png" },
-  { name: "Vegetables", image: "organic_vegitable_image.png" },
-  { name: "Dairy_Products", image: "dairy_product_image.png" },
-  { name: "Cold Drinks", image: "bottles_image.png" },
-  { name: "Instant Food", image: "maggi_image.png" },
-  { name: "Bakery & breads", image: "bakery_image.png" },
-  { name: "Grains & Cereals", image: "grain_image.png" },
+  { name: "Fruits", image: "fresh_fruits_image.png", colour:"#FEE0E0" },
+  { name: "Vegetables", image: "organic_vegitable_image.png", colour:"#FEF6DA" },
+  { name: "Dairy_Products", image: "dairy_product_image.png", colour:"#FEE6CD" },
+  { name: "Cold Drinks", image: "bottles_image.png", colour:"#FEE0E0"},
+  { name: "Instant Food", image: "maggi_image.png" , colour:"#E1F5EC"},
+  { name: "Bakery & breads", image: "bakery_image.png", colour:"#E0F6FE" },
+  { name: "Grains & Cereals", image: "grain_image.png", colour:"#F1E3F9" },
 ];
 
 function HomePage() {
@@ -87,6 +87,7 @@ function HomePage() {
                     to={`/category/${cat.name.toLowerCase()}`}
                     key={cat.name}
                     className="category-card"
+                    style={{backgroundColor: cat.colour}}
                   >
                     <img
                       src={categoriesImage[cat.image]}

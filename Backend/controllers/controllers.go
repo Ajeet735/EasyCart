@@ -261,6 +261,34 @@ func GetProductsByCategory() gin.HandlerFunc {
 	}
 }
 
+func GetProductByID() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		productID := c.Param("id")
+		if productID == "" {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Product ID is required"})
+			return
+		}
+
+		objID, err := primitive.ObjectIDFromHex(productID)
+		if err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid product ID"})
+			return
+		}
+
+		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+		defer cancel()
+
+		var product models.Product
+		err = ProductCollection.FindOne(ctx, bson.M{"_id": objID}).Decode(&product)
+		if err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"error": "Product not found"})
+			return
+		}
+
+		c.JSON(http.StatusOK, product)
+	}
+}
+
 func GetAllProducts() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)

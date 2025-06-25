@@ -1,5 +1,5 @@
 import React from "react";
-import AddProducts from "../ProductsView.js/AddProducts";
+import AddProducts from "../ProductsView/AddProducts";
 
 const AdminPanel = () => {
   return (

@@ -1,0 +1,222 @@
+/* ========== Main Product Section ========== */
+.product-details-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+  padding: 0 20px;
+}
+
+.product-content {
+  display: flex;
+  gap: 40px;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 1000px;
+}
+.products-heading {
+  text-align:center;
+  color: #364153;
+  margin-bottom: 20px;
+  font-weight: 600;
+  font-size: 32px;
+}
+.heading {
+  display: inline-block;
+  border-bottom: 2px solid  #44AE7C;
+  padding-bottom: 8px;
+}
+/* Image Section */
+.image-box {
+  border: 1px solid #ccc;
+  padding: 20px;
+  background-color: #F9F9F9;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 6px;
+}
+
+.image-box img {
+  width: 100%;
+  max-width: 350px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* Product Details Section */
+.product-details {
+  flex: 1;
+}
+
+.product-details h2 {
+  margin-bottom: 15px;
+  color: #364153;
+}
+
+.product-details p {
+  font-size: 18px;
+  margin: 8px 0;
+  color: #364153;
+}
+
+/* Buttons */
+.product-buttons {
+  margin-top: 25px;
+  display: flex;
+  gap: 15px;
+}
+
+.product-buttons button {
+  flex: 1;
+  padding: 14px;
+  font-size: 16px;
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.add-to-cart {
+  background: #edf8f3;
+  border: 1px solid #44ae7c;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.add-to-cart:hover {
+  background: #d1f0e3;
+  border-color: #3b9f6d;
+}
+
+.buy-now {
+  background: #4FBF8B;
+  color: white;
+}
+
+.buy-now:hover {
+  background: #44AE7C;
+}
+.related-products-wrapper {
+  max-width: 1210px;
+  margin: 20px auto 0 auto;
+  padding: 0 2rem;
+  gap: 6px;
+
+}
+.products-heading {
+  text-align: center;
+  color: #364153;
+  font-weight: 700;
+  font-size: 28px;
+  margin-bottom: 24px;
+}
+
+.heading {
+  display: inline-block;
+  border-bottom: 2px solid #44AE7C;
+  padding-bottom: 4px;
+}
+
+/* Horizontal layout — Single row, no wrap, no scrollbar */
+.related-products-list {
+  display: flex;
+  flex-wrap: nowrap;      /* ✅ Force single row */
+  gap: 1.3rem;
+  overflow: hidden;       /* ✅ Prevent scroll */
+}
+
+/* Card styling */
+.related-product-card {
+  flex: 0 0 190px;         /* ✅ Fixed width */
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 1rem;
+  background-color: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease;
+  text-align:left;
+  align-items: flex flex-start;
+}
+
+.related-product-card:hover {
+  transform: translateY(-5px);
+}
+
+/* Product Image */
+.related-product-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: contain;
+  margin-bottom: 5px;
+}
+
+/* Text and content inside card */
+.related-product-card h4,
+.related-product-card p {
+  margin: 4px 0;
+  font-size: 14px;
+  color: #364153;
+  line-height: 1.2;
+}
+
+/* Star ratings */
+.related-product-card .stars {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px;
+  margin-bottom: 6px;
+}
+
+/* Price + Button container */
+.related-product-card .card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+/* Button */
+.related-product-card button {
+  height: 30px;
+  width: 70px;
+  border-radius: 4px;
+  color: #44AE7C;
+  background-color: #EDF8F3;
+  border: 1px solid #44AE7C;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.related-product-card button:hover {
+  background-color: #d4f2e6;
+}
+
+.seemore {
+  height: 40px;
+  width: 130px;
+  border-radius: 4px;
+  color: #44AE7C;
+  background-color: #F9F9F9;
+  cursor: pointer;
+  border: 1px solid #44AE7C;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  margin: 30px auto 60px auto;
+}
+
+.seemore:hover {
+  background: #EDF8F3;
+}

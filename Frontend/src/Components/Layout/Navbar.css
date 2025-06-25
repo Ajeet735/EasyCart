@@ -10,13 +10,13 @@ nav {
 
 /* Inner Container */
 nav .container {
-  max-width: 1400px;
+  max-width: 1210px;       /* Match GetAllProducts width */
   margin: 0 auto;
+  padding: 0 2rem;         /* Use same horizontal spacing as products */
   display: flex;
   justify-content: space-between;
   align-items: center;
   height: 80px;
-  padding: 0 80px; /* ✅ KEEP padding here */
 }
 
 
@@ -129,7 +129,7 @@ nav .menu button:hover {
 }
 
 .search-button:hover {
-  background-color: #339467;
+  background-color: #44AE7C;
 }
 
 .nav-cart-img {

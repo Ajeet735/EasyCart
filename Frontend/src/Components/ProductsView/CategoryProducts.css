@@ -1,0 +1,6 @@
+.category-products-page {
+   max-width: 1210px;
+  margin: 20px auto 0 auto;  /* 100px top margin to avoid navbar overlap */
+  padding: 0 2rem;
+  gap: 6px;
+}
