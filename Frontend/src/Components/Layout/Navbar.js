@@ -15,7 +15,7 @@ const Navbar = () => {
   const [show, setShow] = useState(false);
   const { isAuthorized, setIsAuthorized, user, setUser } = useContext(Context);
   const [query, setQuery] = useState("");
-  const [results, setResults] = useState([]);
+  
   const navigateTo = useNavigate();
   const { cartCount } = useContext(Context);
 
@@ -36,20 +36,12 @@ const Navbar = () => {
     }
   };
 
-  const handleSearch = async (e) => {
-    e.preventDefault();
-    if (!query.trim()) return;
-    try {
-      const res = await axios.get(
-        `http://localhost:8000/products/search?name=${query}`,
-        { withCredentials: true }
-      );
-      setResults(res.data);
-    } catch (error) {
-      toast.error("Search failed");
-      console.error(error);
-    }
-  };
+  const handleSearch = (e) => {
+  e.preventDefault();
+  if (!query.trim()) return;
+  navigateTo(`/search?name=${encodeURIComponent(query.trim())}`);
+  setQuery("");
+};
 
   return (
     <nav className={isAuthorized ? "navbarShow" : "navbarHide"}>
@@ -119,19 +111,6 @@ const Navbar = () => {
           {show ? <AiOutlineClose /> : <GiHamburgerMenu />}
         </div>
       </div>
-
-      {/* Search Results Dropdown */}
-      {results.length > 0 && (
-        <div className="search-results">
-          <ul>
-            {results.map((product) => (
-              <li key={product.Product_ID}>
-                <strong>{product.product_name}</strong> - ₹{product.price}
-              </li>
-            ))}
-          </ul>
-        </div>
-      )}
     </nav>
   );
 };

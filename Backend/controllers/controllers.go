@@ -243,8 +243,10 @@ func GetProductsByCategory() gin.HandlerFunc {
 		ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
 
-		// Find products where "category" matches (case-insensitive regex)
-		filter := bson.M{"category": bson.M{"$regex": category, "$options": "i"}}
+		filter := bson.M{
+			"category": bson.M{"$regex": category, "$options": "i"},
+		}
+
 		cursor, err := ProductCollection.Find(ctx, filter)
 		if err != nil {
 			c.JSON(http.StatusInternalServerError, gin.H{"error": "Error fetching products"})

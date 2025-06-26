@@ -7,6 +7,7 @@ import banner from "../../assets/images/main_banner_bg.png";
 import { importAll } from "../../utils/importAllImages";
 import "./HomePage.css";
 import arrow from "../../assets/images/black_arrow_icon.svg";
+import { useNavigate } from "react-router-dom";
 
 const categoriesImage = importAll(
   require.context("../../assets/categories", false, /\.(png|jpe?g|svg)$/)
@@ -24,6 +25,7 @@ const categories = [
 
 function HomePage() {
   const { user, isAuthorized } = useContext(Context);
+  const navigate = useNavigate()
 
   useEffect(() => {
     ping()
@@ -60,7 +62,10 @@ function HomePage() {
                 </h1>
 
                 <div className="banner-buttons">
-                  <button className="shop-button">Shop Now</button>
+                  <button className="shop-button"
+                  onClick={() => navigate(`/users/getallProducts`)}
+                  
+                  >Shop Now</button>
 
                   <Link
                     to="#footer-section"

@@ -11,7 +11,7 @@ import GetAllProducts from "./Components/ProductsView/GetAllProducts";
 import CartPage from "./Components/Pages/CartPage";
 import ProductDetails from "./Components/ProductsView/ProductsDetails";
 import CategoryProducts from "./Components/ProductsView/CategoryProducts";
-
+import ProductSearch from "./Components/ProductsView/ProductSearch";
 
 
 function App() {
@@ -31,6 +31,8 @@ function App() {
                 <Route path="/cart" element = {<CartPage/>}/>   
                 <Route path="/product/:id" element={<ProductDetails />} />
                 <Route path="/category/:category" element = {<CategoryProducts/>} />
+                <Route path="/search" element={<ProductSearch />} />
+
 
 
         </Route>

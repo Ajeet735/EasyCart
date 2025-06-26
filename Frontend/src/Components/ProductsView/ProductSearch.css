@@ -1,0 +1,20 @@
+.search-results-page {
+  max-width: 1210px;
+  margin: 20px auto;
+  padding: 1rem;
+}
+
+.search-results-page h2 {
+  color: #364153;
+  margin-bottom: 1.5rem;
+  font-size: 1.8rem;
+  font-weight: 600;
+  text-align: center;
+}
+
+.product-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
