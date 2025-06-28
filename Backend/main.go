@@ -5,12 +5,13 @@ import (
 	"ecommerce-project/database"
 	"ecommerce-project/middleware"
 	"ecommerce-project/routes"
+	"ecommerce-project/tokens"
 	"log"
 	"os"
+	"path/filepath"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
-	"path/filepath"
 )
 
 func main() {
@@ -18,6 +19,9 @@ func main() {
 	if port == "" {
 		port = "8000"
 	}
+
+	// ✅ Init the token package after DB is connected
+	token.InitUserCollection(database.Client)
 
 	app := controllers.NewApplication(
 		database.ProductData(database.Client, "Products"),
@@ -31,7 +35,7 @@ func main() {
 		log.Fatal(err)
 	}
 
-	// CORS config for React frontend
+	// CORS config
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:3001", "http://localhost:3002"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
@@ -39,13 +43,11 @@ func main() {
 		AllowCredentials: true,
 	}))
 
-	// Public routes
 	router.GET("/api/ping", func(c *gin.Context) {
 		c.String(200, "pong")
 	})
-	routes.UserRoutes(router) // login, register, etc.
+	routes.UserRoutes(router)
 
-	// ✅ Protected routes (use middleware per route)
 	router.POST("/addtocart", middleware.Authentication(), app.AddToCart())
 	router.DELETE("/removeitem", middleware.Authentication(), app.RemoveItem())
 	router.GET("/listcart", middleware.Authentication(), controllers.GetItemFromCart())
@@ -55,11 +57,9 @@ func main() {
 	router.DELETE("/deleteaddresses", middleware.Authentication(), controllers.DeleteAddress())
 	router.POST("/cartcheckout", middleware.Authentication(), app.BuyFromCart())
 	router.POST("/instantbuy", middleware.Authentication(), app.InstantBuy())
-
 	router.GET("/users/cart-count", middleware.Authentication(), controllers.GetCartCount())
 	router.PUT("/update-cart-quantity", middleware.Authentication(), controllers.UpdateCartQuantity())
 
-	// Static file route
 	router.Static("/public", filepath.Join(".", "public"))
 
 	log.Println("Server running on port", port)
