@@ -21,9 +21,9 @@ func ConnectDB() *mongo.Client {
 		}
 	}
 
-	mongoURI := os.Getenv("MONGO_URI")
+	mongoURI := os.Getenv("MONGODB_URI")
 	if mongoURI == "" {
-		log.Fatal("MONGO_URI not set")
+		log.Fatal("MONGODB_URI not set")
 	}
 
 	client, err := mongo.NewClient(options.Client().ApplyURI(mongoURI))
