@@ -7,16 +7,18 @@ import (
 	"os"
 	"time"
 
-	"github.com/joho/godotenv" // ✅ Import godotenv
+	"github.com/joho/godotenv"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 func ConnectDB() *mongo.Client {
-	// ✅ Load environment variables from .env file
-	err := godotenv.Load()
-	if err != nil {
-		log.Fatal("Error loading .env file")
+	// ✅ Load .env file only if not running on Render
+	if os.Getenv("RENDER") == "" {
+		err := godotenv.Load()
+		if err != nil {
+			log.Println("Warning: .env file not found")
+		}
 	}
 
 	mongoURI := os.Getenv("MONGO_URI")
