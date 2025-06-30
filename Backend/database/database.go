@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"os"
 	"time"
 
 	"go.mongodb.org/mongo-driver/mongo"
@@ -11,36 +12,39 @@ import (
 )
 
 func ConnectDB() *mongo.Client {
-
-	client, err := mongo.NewClient(options.Client().ApplyURI("mongodb://ajeetchirag:cuh%40211538@localhost:27017"))
-	if err != nil {
-		log.Fatal(err)
+	mongoURI := os.Getenv("MONGO_URI")
+	if mongoURI == "" {
+		log.Fatal("MONGO_URI not set")
 	}
+
+	client, err := mongo.NewClient(options.Client().ApplyURI(mongoURI))
+	if err != nil {
+		log.Fatalf("Failed to create MongoDB client: %v", err)
+	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
+
 	err = client.Connect(ctx)
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Failed to connect to MongoDB: %v", err)
 	}
 
 	err = client.Ping(context.TODO(), nil)
 	if err != nil {
-		log.Println("failed to connect to mongodb")
-		return nil
+		log.Fatalf("Failed to ping MongoDB: %v", err)
 	}
-	fmt.Println("Successfully Connected to the mongodb")
+
+	fmt.Println("✅ Successfully connected to MongoDB")
 	return client
 }
 
 var Client *mongo.Client = ConnectDB()
 
 func UserData(client *mongo.Client, CollectionName string) *mongo.Collection {
-	var collection *mongo.Collection = client.Database("Ecommerce").Collection(CollectionName)
-	return collection
-
+	return client.Database("Ecommerce").Collection(CollectionName)
 }
 
 func ProductData(client *mongo.Client, CollectionName string) *mongo.Collection {
-	var productcollection *mongo.Collection = client.Database("Ecommerce").Collection(CollectionName)
-	return productcollection
+	return client.Database("Ecommerce").Collection(CollectionName)
 }
