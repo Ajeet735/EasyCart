@@ -2,7 +2,6 @@ import { useContext, useState } from "react";
 import { MdOutlineMailOutline } from "react-icons/md";
 import { RiLock2Fill } from "react-icons/ri";
 import { useNavigate, Link } from "react-router-dom";
-import axios from "axios";
 import toast from "react-hot-toast";
 import { Context } from "../../main";
 import "../../App.css";
@@ -10,6 +9,7 @@ import "./Login.css";
 import logo from "../../assets/logo/easycart.png";
 import background from "../../assets/logo/wave.png";
 import toplayer from "../../assets/logo/bg.svg";
+import API from "../../api"
 
 const Login = () => {
   const [formData, setFormdata] = useState({
@@ -30,7 +30,7 @@ const Login = () => {
   const SubmitLogin = async (e) => {
   e.preventDefault();
   try {
-    const response = await axios.post(
+    const response = await API.post(
       "http://localhost:8000/users/login",
       formData,
       {

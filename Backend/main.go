@@ -37,7 +37,7 @@ func main() {
 
 	// CORS config
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:3001", "http://localhost:3002"},
+		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:3001", "https://easycart-frontend.vercel.app"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Content-Type", "Authorization"},
 		AllowCredentials: true,

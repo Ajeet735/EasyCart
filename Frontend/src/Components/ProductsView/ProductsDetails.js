@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import axios from "axios";
+import API from "../../api";
 import { Context } from "../../main";
 import "./ProductsDetails.css";
 import { useNavigate, useParams } from "react-router-dom";
@@ -15,7 +15,7 @@ const ProductDetails = () => {
   useEffect(() => {
     if (!id) return;
 
-    axios
+    API
       .get(`http://localhost:8000/users/getproduct/${id}`, {
         withCredentials: true,
       })
@@ -23,7 +23,7 @@ const ProductDetails = () => {
         console.log("Fetched product details:", res.data);
         setProduct(res.data);
 
-        axios
+       API
           .get(`http://localhost:8000/users/productbycategory`, {
             params: { category: res.data.category },
             withCredentials: true,
@@ -46,7 +46,7 @@ const ProductDetails = () => {
     }
 
     try {
-      const response = await axios.post(
+      const response = await API.post(
         "http://localhost:8000/addtocart",
         {},
         {

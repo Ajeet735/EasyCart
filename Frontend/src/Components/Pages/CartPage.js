@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState, useCallback } from "react";
-import axios from "axios";
+import API from "../../api";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../../main";
 import "./CartPage.css";
@@ -15,7 +15,7 @@ const CartPage = () => {
   const fetchCartItems = useCallback(async () => {
     if (!user) return;
     try {
-      const res = await axios.get("http://localhost:8000/listcart", {
+      const res = await API.get("http://localhost:8000/listcart", {
         params: { id: user.user_id },
         withCredentials: true,
       });
@@ -46,7 +46,7 @@ const CartPage = () => {
         productId,
         quantity: newQuantity,
       });
-      await axios.put(
+      await API.put(
         "http://localhost:8000/update-cart-quantity",
         {
           userId: user.user_id,
@@ -71,7 +71,7 @@ const CartPage = () => {
 
   const handleRemoveItem = async (productId) => {
     try {
-      await axios.delete("http://localhost:8000/removeitem", {
+      await API.delete("http://localhost:8000/removeitem", {
         params: {
           id: productId,
           userID: user.user_id,

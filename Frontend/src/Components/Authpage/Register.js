@@ -5,7 +5,7 @@ import { FaPencilAlt } from "react-icons/fa";
 import { FaPhoneFlip } from "react-icons/fa6";
 import { FaRegUser } from "react-icons/fa";
 import {useNavigate } from "react-router-dom";
-import axios from "axios";
+import API from "../../api";
 import toast from "react-hot-toast";
 import "./Register.css";
 import logo from "../../assets/logo/easycart.png";
@@ -47,7 +47,7 @@ const Register = () => {
         ...formData,
         role: role
       }
-      const { data } = await axios.post("http://localhost:8000/users/signup",payload,
+      const { data } = await API.post("http://localhost:8000/users/signup",payload,
         {
           headers: {
             "Content-Type": "application/json",

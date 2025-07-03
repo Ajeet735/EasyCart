@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import axios from "axios";
+import API from "../../api";
 import { Context } from "../../main";
 import cartIcon from "../../assets/icons/cart.png";
 
@@ -15,7 +15,7 @@ const AddToCartButton = ({ productId }) => {
     }
 
     try {
-      const response = await axios.post(
+      const response = await API.post(
         "http://localhost:8000/addtocart",
         {},
         {

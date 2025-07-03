@@ -1,5 +1,5 @@
 import { useState } from "react";
-import axios from "axios";
+import API from "../../api";
 import "./AddProducts.css";
 
 const AddProducts = () => {
@@ -22,7 +22,7 @@ const AddProducts = () => {
   const SubmitHandler = async (e) => {
     e.preventDefault()
 try {
- const response = await axios.post("http://localhost:8000/admin/addproduct", formData)
+ const response = await API.post("http://localhost:8000/admin/addproduct", formData)
   console.log(response.data)
 
   alert("Product added successfully!")

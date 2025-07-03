@@ -1,5 +1,5 @@
 import React, {  useEffect, useState } from "react";
-import axios from "axios";
+import API from "../../api";
 import "./GetAllProducts.css";
 import ProductCard from "./ProductCard"
 
@@ -7,7 +7,7 @@ const GetAllProducts = () => {
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
-    axios
+    API
       .get("http://localhost:8000/users/getAllproducts", {
         withCredentials: true,
       })
