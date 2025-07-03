@@ -13,7 +13,7 @@ import (
 )
 
 func ConnectDB() *mongo.Client {
-	// ✅ Load .env file only if not running on Render
+
 	if os.Getenv("RENDER") == "" {
 		err := godotenv.Load()
 		if err != nil {
