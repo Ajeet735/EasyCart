@@ -8,7 +8,7 @@ const GetAllProducts = () => {
 
   useEffect(() => {
     API
-      .get("http://localhost:8000/users/getAllproducts", {
+      .get("/users/getAllproducts", {
         withCredentials: true,
       })
       .then((res) => {

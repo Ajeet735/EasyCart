@@ -19,7 +19,7 @@ const ProductSearch = () => {
       try {
         setLoading(true);
         const res = await API.get(
-          `http://localhost:8000/users/search?name=${query}`
+          `/users/search?name=${query}`
         );
 
         const data = Array.isArray(res.data) ? res.data : [];

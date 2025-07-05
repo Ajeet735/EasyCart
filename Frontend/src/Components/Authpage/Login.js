@@ -11,6 +11,7 @@ import background from "../../assets/logo/wave.png";
 import toplayer from "../../assets/logo/bg.svg";
 import API from "../../api"
 
+
 const Login = () => {
   const [formData, setFormdata] = useState({
     email: "",
@@ -27,11 +28,11 @@ const Login = () => {
     }));
   };
 
-  const SubmitLogin = async (e) => {
+const SubmitLogin = async (e) => {
   e.preventDefault();
   try {
     const response = await API.post(
-      "http://localhost:8000/users/login",
+      "/users/login",
       formData,
       {
         headers: {
@@ -43,19 +44,20 @@ const Login = () => {
 
     const userData = response.data;
 
-    toast.success(`Welcome ${userData.first_name || "User"}`);
+    toast.success("Logged in successfully");
 
     setFormdata({ email: "", password: "" });
 
     setIsAuthorized(true);
     setUser(userData);
-    
-    navigate("/home"); // ✅ navigate to home
+
+    navigate("/home");
   } catch (error) {
     console.error("Login failed:", error);
     toast.error(error?.response?.data?.error || "Login failed");
   }
 };
+
 
   return (
     <section

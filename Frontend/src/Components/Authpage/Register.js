@@ -11,6 +11,7 @@ import "./Register.css";
 import logo from "../../assets/logo/easycart.png";
 import background from "../../assets/logo/Rwave.png";
 import toplayer from "../../assets/logo/logo1.svg";
+
 const Register = () => {
   const [formData, setFormData] = useState({
     first_name: "",
@@ -33,47 +34,50 @@ const Register = () => {
   };
 
   const SubmitHandler = async (e) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if ( !formData.first_name || !formData.last_name || !formData.email ||  !formData.password || !formData.phone || !role){
-      toast.error("please fill all the field!")
-      return
-    }
+  if (
+    !formData.first_name ||
+    !formData.last_name ||
+    !formData.email ||
+    !formData.password ||
+    !formData.phone ||
+    !role
+  ) {
+    toast.error("⚠️ Please fill all the fields!");
+    return;
+  }
 
-    console.log(formData);
-    try {
+  try {
+    const payload = {
+      ...formData,
+      role: role,
+    };
 
-      const payload = {
-        ...formData,
-        role: role
-      }
-      const { data } = await API.post("http://localhost:8000/users/signup",payload,
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-          withCredentials: true,
-        }
-      );
+     await API.post("/users/signup", payload, {
+      headers: {
+        "Content-Type": "application/json",
+      },
+      withCredentials: true,
+    });
 
-      toast.success(data); // assuming Go backend returns a plain string
+    toast.success("🎉 Registered successfully! You can now log in.");
 
-      setFormData({
-        first_name: "",
-        last_name: "",
-        email: "",
-        password: "",
-        phone: "",
-      });
+    setFormData({
+      first_name: "",
+      last_name: "",
+      email: "",
+      password: "",
+      phone: "",
+    });
 
-      setRole('');
-      navigate("/login");
-    
-    } catch (error) {
-      toast.error(error?.response?.data?.error || "Registration failed");
-    }
-  };
-  
+    setRole("");
+    navigate("/login");
+  } catch (error) {
+    toast.error(error?.response?.data?.error || "Registration failed");
+  }
+};
+
 
   return (
     <section className="authPage"

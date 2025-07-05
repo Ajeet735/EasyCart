@@ -4,6 +4,7 @@ import { Context } from "../../main";
 import "./ProductsDetails.css";
 import { useNavigate, useParams } from "react-router-dom";
 import cartIcon from "../../assets/icons/cart.png";
+import { BASE_URL } from "../../config";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -16,7 +17,7 @@ const ProductDetails = () => {
     if (!id) return;
 
     API
-      .get(`http://localhost:8000/users/getproduct/${id}`, {
+      .get(`/users/getproduct/${id}`, {
         withCredentials: true,
       })
       .then((res) => {
@@ -24,7 +25,7 @@ const ProductDetails = () => {
         setProduct(res.data);
 
        API
-          .get(`http://localhost:8000/users/productbycategory`, {
+          .get(`/users/productbycategory`, {
             params: { category: res.data.category },
             withCredentials: true,
           })
@@ -47,7 +48,7 @@ const ProductDetails = () => {
 
     try {
       const response = await API.post(
-        "http://localhost:8000/addtocart",
+        "/addtocart",
         {},
         {
           params: {
@@ -82,7 +83,7 @@ const ProductDetails = () => {
       <div className="product-content">
         <div className="image-box">
           <img
-            src={`http://localhost:8000/public/${product.image}`}
+            src={`${BASE_URL}/public/${product.image}`}
             alt={product.product_name}
           />
         </div>
@@ -141,7 +142,7 @@ const ProductDetails = () => {
                   <div key={prodId} className="related-product-card">
                     <div className="product-image-wrapper">
                       <img
-                        src={`http://localhost:8000/public/${prod.image}`}
+                        src={`${BASE_URL}/public/${prod.image}`}
                         alt={prod.product_name}
                         onClick={() => navigate(`/product/${prodId}`)}
                         style={{ cursor: "pointer" }}

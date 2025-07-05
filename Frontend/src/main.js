@@ -1,6 +1,6 @@
 import React, { useState, useEffect, createContext } from "react";
 import App from "./App";
-import axios from "axios";
+import API from "./api";
 
 export const Context = createContext({
   isAuthorized: false,
@@ -19,7 +19,7 @@ const AppWrapper = () => {
  useEffect(() => {
   const checkAuth = async () => {
     try {
-      const res = await axios.get("http://localhost:8000/users/check-auth", {
+      const res = await API.get("/users/check-auth", {
         withCredentials: true,
       });
 
@@ -41,10 +41,12 @@ const AppWrapper = () => {
 }, []);
 
 useEffect(() => {
+  if(isAuthorized) return;
+  
   const getCartCount = async () => {
     try {
       if (isAuthorized) {
-        const cartRes = await axios.get("http://localhost:8000/users/cart-count", {
+        const cartRes = await API.get("/users/cart-count", {
           withCredentials: true,
         });
         setCartCount(cartRes.data.count);

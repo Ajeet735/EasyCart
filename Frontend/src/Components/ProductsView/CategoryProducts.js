@@ -17,7 +17,7 @@ const CategoryProducts = () => {
       try {
         setLoading(true);
         const res = await API.get(
-          `http://localhost:8000/users/productbycategory?category=${category}`
+          `/users/productbycategory?category=${category}`
         );
         setProducts(res.data);
       } catch (err) {

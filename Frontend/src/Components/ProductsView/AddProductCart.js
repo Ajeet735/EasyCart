@@ -2,42 +2,56 @@ import React, { useContext } from "react";
 import API from "../../api";
 import { Context } from "../../main";
 import cartIcon from "../../assets/icons/cart.png";
+import { toast } from "react-hot-toast";
 
 const AddToCartButton = ({ productId }) => {
   const { user, setCartCount } = useContext(Context);
 
-  const handleAddToCart = async () => {
-    console.log("Adding product to cart with ID:", productId);
+  // Make sure this is imported
 
-    if (!productId) {
-      alert("Product ID is missing!");
-      return;
-    }
+const handleAddToCart = async () => {
+  console.log("Adding product to cart with ID:", productId);
 
-    try {
-      const response = await API.post(
-        "http://localhost:8000/addtocart",
-        {},
-        {
-          params: {
-            id: productId,
-            userID: user.user_id,
-          },
-          withCredentials: true,
-        }
-      );
+  if (!productId) {
+    toast.error("Product ID is missing!");
+    return;
+  }
 
-      if (response.status === 200) {
-        alert("Product added to cart");
-        setCartCount((prev) => prev + 1);
-      } else if (response.status === 409) {
-        alert("Product is already in cart");
+  try {
+    const response = await API.post(
+      "/addtocart",
+      {},
+      {
+        params: {
+          id: productId,
+          userID: user.user_id,
+        },
+        withCredentials: true,
       }
-    } catch (error) {
-      console.error("Add to cart failed:", error.response?.data || error.message);
-      alert("Failed to add product to cart");
+    );
+
+    if (response.status === 200) {
+      toast.success("🛒 Product added to cart!");
+
+      // Try fetching updated cart count separately
+      try {
+        const res = await API.get("/users/cart-count", {
+          withCredentials: true,
+        });
+        setCartCount(res.data.count || 0);
+      } catch (countErr) {
+        console.warn("Product added, but failed to update cart count:", countErr);
+      }
+
+    } else if (response.status === 409) {
+      toast.error("⚠️ Product is already in the cart.");
     }
-  };
+  } catch (error) {
+    console.error("Add to cart failed:", error.response?.data || error.message);
+    toast.error("❌ Failed to add product to cart");
+  }
+};
+
 
   return (
     <button

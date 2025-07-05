@@ -118,7 +118,13 @@ func GetCartCount() gin.HandlerFunc {
 			return
 		}
 
-		c.JSON(http.StatusOK, gin.H{"count": len(user.UserCart)})
+		// ✅ Calculate total quantity (not just number of items)
+		totalQuantity := 0
+		for _, item := range user.UserCart {
+			totalQuantity += item.Quantity
+		}
+
+		c.JSON(http.StatusOK, gin.H{"count": totalQuantity})
 	}
 }
 

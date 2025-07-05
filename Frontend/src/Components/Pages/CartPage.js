@@ -4,9 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { Context } from "../../main";
 import "./CartPage.css";
 import CheckoutSection from "../Model/CheckoutSection";
+import { BASE_URL } from "../../config";
 
 const CartPage = () => {
-  const { user } = useContext(Context);
+  const { user, setCartCount } = useContext(Context);
   const [cartItems, setCartItems] = useState([]);
   const [total, setTotal] = useState(0);
 
@@ -15,15 +16,18 @@ const CartPage = () => {
   const fetchCartItems = useCallback(async () => {
     if (!user) return;
     try {
-      const res = await API.get("http://localhost:8000/listcart", {
+      const res = await API.get("/listcart", {
         params: { id: user.user_id },
         withCredentials: true,
       });
       setCartItems(res.data.usercart);
+       // 🔁 Update the cart count to reflect quantity
+    const totalQuantity = res.data.usercart.reduce((acc, item) => acc + (item.quantity || 1), 0);
+    setCartCount(totalQuantity);
     } catch (err) {
       console.error("Failed to load cart:", err.response?.data || err.message);
     }
-  }, [user]);
+  }, [user,setCartCount]);
 
   useEffect(() => {
     fetchCartItems();
@@ -47,7 +51,7 @@ const CartPage = () => {
         quantity: newQuantity,
       });
       await API.put(
-        "http://localhost:8000/update-cart-quantity",
+        "/update-cart-quantity",
         {
           userId: user.user_id,
           productId,
@@ -71,7 +75,7 @@ const CartPage = () => {
 
   const handleRemoveItem = async (productId) => {
     try {
-      await API.delete("http://localhost:8000/removeitem", {
+      await API.delete("/removeitem", {
         params: {
           id: productId,
           userID: user.user_id,
@@ -158,7 +162,7 @@ return (
                   }}
                 >
                   <img
-                    src={`http://localhost:8000/public/${item.image}`}
+                    src={`${BASE_URL}/public/${item.image}`}
                     alt={item.product_name}
                     onClick={() => {
                       const productId =

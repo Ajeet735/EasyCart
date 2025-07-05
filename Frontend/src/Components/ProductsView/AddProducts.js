@@ -22,7 +22,7 @@ const AddProducts = () => {
   const SubmitHandler = async (e) => {
     e.preventDefault()
 try {
- const response = await API.post("http://localhost:8000/admin/addproduct", formData)
+ const response = await API.post("/admin/addproduct", formData)
   console.log(response.data)
 
   alert("Product added successfully!")

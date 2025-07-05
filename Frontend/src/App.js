@@ -1,5 +1,5 @@
 import "./App.css";
-import HomePage from "./Components/Pages/HomePage"
+import HomePage from "./Components/Pages/HomePage";
 import AdminPanel from "./Components/Pages/AdminPanel";
 import AdminRoute from "./Components/Routes/AdminRoutes";
 import Layout from "./Components/Layout/Layout";
@@ -13,32 +13,34 @@ import ProductDetails from "./Components/ProductsView/ProductsDetails";
 import CategoryProducts from "./Components/ProductsView/CategoryProducts";
 import ProductSearch from "./Components/ProductsView/ProductSearch";
 
+// ✅ Import Toaster
+import { Toaster } from "react-hot-toast";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/register" element={<Register />} />
+    <>
+      {/* ✅ Mount toast handler once */}
+      <Toaster position="top-center" reverseOrder={false} />
 
-        {/* For other routes, use layout */}
-        <Route element={ <Layout />}>
-                <Route path="/login" element={<Login/>} />
-                <Route path="/home" element={<HomePage />} />
-                <Route path="/admin" element={<AdminRoute><AdminPanel /></AdminRoute>} />
-                <Route path="/admin/addproduct" element={<AddProducts />} />
-                <Route path="/users/getallProducts" element={<GetAllProducts />} />
-                <Route path="/cart" element = {<CartPage/>}/>   
-                <Route path="/product/:id" element={<ProductDetails />} />
-                <Route path="/category/:category" element = {<CategoryProducts/>} />
-                <Route path="/search" element={<ProductSearch />} />
-
-
-
-        </Route>
-      </Routes>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/login" element={<Login />} />
+          <Route element={<Layout />}>
+            <Route path="/home" element={<HomePage />} />
+            <Route path="/admin" element={<AdminRoute><AdminPanel /></AdminRoute>} />
+            <Route path="/admin/addproduct" element={<AddProducts />} />
+            <Route path="/users/getallProducts" element={<GetAllProducts />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/category/:category" element={<CategoryProducts />} />
+            <Route path="/search" element={<ProductSearch />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </>
   );
 }
 
-export default App
+export default App;

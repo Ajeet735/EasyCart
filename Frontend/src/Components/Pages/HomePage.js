@@ -1,7 +1,6 @@
 import React, { useEffect, useContext } from "react";
 import { Link } from "react-router-dom";
 import { ping } from "../server";
-import toast from "react-hot-toast";
 import { Context } from "../../main";
 import banner from "../../assets/images/main_banner_bg.png";
 import { importAll } from "../../utils/importAllImages";
@@ -35,11 +34,11 @@ function HomePage() {
       .catch((err) => console.error("Failed to connect to the backend!"));
   }, []);
 
-  useEffect(() => {
-    if (user?.first_name) {
-      toast.success(`Welcome ${user.first_name}`);
-    }
-  }, [user]);
+  // useEffect(() => {
+  //   if (user?.first_name) {
+  //     toast.success(`Welcome ${user.first_name}`);
+  //   }
+  // }, [user]);
 
   useEffect(() => {
     console.log("Auth context:", isAuthorized, user);
