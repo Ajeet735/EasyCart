@@ -87,7 +87,7 @@ const ProductDetails = () => {
       <div className="product-content">
         <div className="image-box">
           <img
-            src={`${BASE_URL}/public//${product.image}`}
+            src={`${BASE_URL}/public/${product.image}`}
             alt={product.product_name}
           />
         </div>

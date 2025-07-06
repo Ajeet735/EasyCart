@@ -1,6 +1,7 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import AddProductsCart from "./AddProductCart";
+import { BASE_URL } from "../../config";
 
 
 const ProductCard = ({ product }) => {
@@ -10,7 +11,7 @@ const ProductCard = ({ product }) => {
     <div className="product-card">
       <div className="product-image-wrapper">
         <img
-          src={`http://localhost:8000/public/${product.image}`}
+          src={`${ BASE_URL}/public/${product.image}`}
           alt={product.product_name}
           onClick={() => navigate(`/product/${product.id}`)}
           style={{ cursor: "pointer" }}
