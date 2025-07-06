@@ -5,6 +5,7 @@ import "./ProductsDetails.css";
 import { useNavigate, useParams } from "react-router-dom";
 import cartIcon from "../../assets/icons/cart.png";
 import { BASE_URL } from "../../config";
+import toast from "react-hot-toast";
 
 const ProductDetails = () => {
   const { id } = useParams();
@@ -46,7 +47,7 @@ const ProductDetails = () => {
     console.log("Received productId:", productId);
 
     if (!productId) {
-      alert("Product ID is missing!");
+      toast.error("Product ID is missing!");
       return;
     }
 
@@ -64,15 +65,14 @@ const ProductDetails = () => {
       );
 
       if (response.status === 200) {
-        console.log("Product added:", response.data);
-        alert("Product added to cart");
+        toast.success("🛒 Product added to cart");
         setCartCount((prev) => prev + 1);
       } else if (response.status === 409) {
-        alert("Product is already in cart");
+        toast.error("⚠️ Product is already in cart");
       }
     } catch (error) {
       console.error("Add to cart failed:", error.response?.data || error.message);
-      alert("Failed to add product to cart");
+      toast.error("❌ Failed to add product to cart");
     }
   };
 
