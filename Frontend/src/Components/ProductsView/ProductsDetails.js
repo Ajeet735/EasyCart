@@ -37,6 +37,10 @@ const ProductDetails = () => {
       .catch((err) => console.error("Product fetch failed:", err));
   }, [id]);
 
+   useEffect(() => {
+    console.log("BASE_URL:", BASE_URL);
+  }, []);
+
   const handleAddToCart = async (productId) => {
     console.log("Calling handleAddToCart...");
     console.log("Received productId:", productId);
@@ -83,7 +87,7 @@ const ProductDetails = () => {
       <div className="product-content">
         <div className="image-box">
           <img
-            src={`${BASE_URL}/public/upload/${product.image}`}
+            src={`${BASE_URL}/public//${product.image}`}
             alt={product.product_name}
           />
         </div>
