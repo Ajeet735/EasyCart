@@ -9,18 +9,23 @@ import (
 	"log"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
+
 	port := os.Getenv("PORT")
 	if port == "" {
 		port = "8000"
 	}
 
-	// ✅ Init the token package after DB is connected
+	if os.Getenv("GIN_MODE") == "release" {
+		gin.SetMode(gin.ReleaseMode)
+	}
+
 	token.InitUserCollection(database.Client)
 
 	app := controllers.NewApplication(
@@ -30,24 +35,35 @@ func main() {
 
 	router := gin.Default()
 
-	err := router.SetTrustedProxies([]string{"127.0.0.1"})
-	if err != nil {
+	if err := router.SetTrustedProxies([]string{"127.0.0.1"}); err != nil {
 		log.Fatal(err)
 	}
 
-	// CORS config
+	allowOrigins := []string{
+		"http://localhost:3000",
+		"http://localhost:3001",
+	}
+
+	if gin.Mode() == gin.ReleaseMode {
+		allowOrigins = []string{"https://easycart-frontend.vercel.app"}
+	}
+
 	router.Use(cors.New(cors.Config{
-		AllowOrigins:     []string{"http://localhost:3000", "http://localhost:3001", "https://easycart-frontend.vercel.app"},
+		AllowOrigins:     allowOrigins,
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
 		AllowHeaders:     []string{"Content-Type", "Authorization"},
+		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
+		MaxAge:           12 * time.Hour,
 	}))
 
 	router.GET("/api/ping", func(c *gin.Context) {
 		c.String(200, "pong")
 	})
+
 	routes.UserRoutes(router)
 
+	// ✅ Auth-protected routes
 	router.POST("/addtocart", middleware.Authentication(), app.AddToCart())
 	router.DELETE("/removeitem", middleware.Authentication(), app.RemoveItem())
 	router.GET("/listcart", middleware.Authentication(), controllers.GetItemFromCart())

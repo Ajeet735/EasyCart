@@ -117,31 +117,69 @@ func Login() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		var ctx, cancel = context.WithTimeout(context.Background(), 100*time.Second)
 		defer cancel()
+
 		var user models.User
 		var founduser models.User
+
 		if err := c.BindJSON(&user); err != nil {
 			c.JSON(http.StatusBadRequest, gin.H{"error": err})
 			return
 		}
+
+		// Check user existence
 		err := UserCollection.FindOne(ctx, bson.M{"email": user.Email}).Decode(&founduser)
-		defer cancel()
 		if err != nil {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": "login or password incorrect"})
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "Login or password incorrect"})
 			return
 		}
+
+		// Verify password
 		PasswordIsValid, msg := VerifyPassword(*user.Password, *founduser.Password)
 		if !PasswordIsValid {
-			c.JSON(http.StatusInternalServerError, gin.H{"error": msg})
+			c.JSON(http.StatusUnauthorized, gin.H{"error": msg})
 			fmt.Println(msg)
 			return
 		}
 
+		// Generate tokens
 		token, refreshToken, _ := generate.TokenGenerator(*founduser.Email, *founduser.First_Name, *founduser.Last_Name, founduser.User_ID)
 		generate.UpdateAllTokens(token, refreshToken, founduser.User_ID)
 
-		c.SetCookie("token", token, 3600*24, "/", "localhost", false, true)                  // Expires in 1 day
-		c.SetCookie("refresh_token", refreshToken, 3600*24*7, "/", "localhost", false, true) // Expires in 7 days
+		// ⚙️ Dynamic cookie domain & flags based on environment
+		domain := "localhost"
+		secure := false
+		sameSite := http.SameSiteLaxMode
 
+		if gin.Mode() == gin.ReleaseMode {
+			domain = "easycart-vrn1.onrender.com"
+			secure = true
+			sameSite = http.SameSiteNoneMode
+		}
+
+		// ✅ Set cookies
+		http.SetCookie(c.Writer, &http.Cookie{
+			Name:     "token",
+			Value:    token,
+			Path:     "/",
+			Domain:   domain,
+			HttpOnly: true,
+			Secure:   secure,
+			SameSite: sameSite,
+			Expires:  time.Now().Add(24 * time.Hour),
+		})
+
+		http.SetCookie(c.Writer, &http.Cookie{
+			Name:     "refresh_token",
+			Value:    refreshToken,
+			Path:     "/",
+			Domain:   domain,
+			HttpOnly: true,
+			Secure:   secure,
+			SameSite: sameSite,
+			Expires:  time.Now().Add(7 * 24 * time.Hour),
+		})
+
+		// ✅ Respond with user data
 		c.JSON(http.StatusOK, gin.H{
 			"message":    "Login successful",
 			"first_name": founduser.First_Name,
@@ -149,7 +187,6 @@ func Login() gin.HandlerFunc {
 			"role":       founduser.Role,
 			"email":      founduser.Email,
 		})
-
 	}
 }
 
