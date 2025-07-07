@@ -51,11 +51,15 @@ func main() {
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     allowOrigins,
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE", "OPTIONS"},
-		AllowHeaders:     []string{"Content-Type", "Authorization"},
+		AllowHeaders:     []string{"Origin", "Content-Type", "Accept", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
 		AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
+
+	router.OPTIONS("/*path", func(c *gin.Context) {
+		c.Status(200)
+	})
 
 	router.GET("/api/ping", func(c *gin.Context) {
 		c.String(200, "pong")
